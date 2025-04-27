@@ -6,7 +6,7 @@ import io
 
 app = FastAPI(
     title="OncoBrain API",
-    description="API responsável por analisar imagens tumorais para o OncoPixel",
+    description="API responsible for analyzing tumor images for Oncopixel",
     version="1.0.0"
 )
 
@@ -15,7 +15,7 @@ model = load_model()
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to OncoBrain!"}
+    return {"message": "Welcome to OncoBrain! API responsible for analyzing tumor images for Oncopixel."}
 
 @app.post("/analyze/")
 async def analyze_image(file: UploadFile = File(...)):

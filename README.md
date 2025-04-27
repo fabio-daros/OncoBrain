@@ -31,10 +31,11 @@ cd OncoBrain
 pip install -r requirements.txt
 ```
 
-3. Start the API:
+3. ## How to run
 ```bash
-uvicorn main:app --reload
-```
+git clone https://github.com/seu-usuario/OncoBrain.git
+cd OncoBrain
+docker-compose up --build
 
 4. Access the interactive Swagger documentation:
 ```
@@ -66,7 +67,7 @@ OncoBrain/
 
 ## 🔧 How to Train a New Model
 
-1. Coloque as imagens em estrutura de pastas:
+1. Put the images in folder structure:
 ```
 path/to/your/train/
    └── normal/

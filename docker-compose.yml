@@ -1,0 +1,17 @@
+services:
+  oncobrain:
+    build: .
+    container_name: oncobrain_container
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    # Comentamos ou removemos o suporte obrigatório a GPU
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           capabilities: [gpu]
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all
+    # runtime: nvidia
