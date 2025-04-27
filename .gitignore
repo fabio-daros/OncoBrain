@@ -1,5 +1,9 @@
 venv/
+saved_models/
 __pycache__/
+*.pth
+*.pt
+*.ckpt
 *.pyc
 *.pyo
 *.pyd
