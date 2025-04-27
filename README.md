@@ -1,70 +1,70 @@
 # OncoBrain
 
-OncoBrain é um projeto de Inteligência Artificial focado em **análise de imagens tumorais** usando Vision Transformers (ViT) adaptados para aplicações médicas.
+OncoBrain is an Artificial Intelligence project focused on **tumor image analysis** using Vision Transformers (ViT) adapted for medical applications.
 
-Desenvolvido para ser a API de inferência do OncoPixel, o OncoBrain realiza:
-- Upload de imagens tumorais
-- Análise através de um modelo Transformer treinado
-- Classificação multiclasse de tipos tumorais
+Developed to serve as the inference API for OncoPixel, OncoBrain performs:
+- Upload of tumor images
+- Analysis through a trained Transformer model
+- Multiclass classification of tumor types
 
 ---
 
-## Tecnologias Utilizadas
+## Technologies Used
 - **Python 3.12**
-- **FastAPI** (servidor de API)
-- **PyTorch** (modelo Transformer e treino)
-- **Torchvision** (datasets e augmentations)
-- **PIL** (manipulação de imagens)
+- **FastAPI** (API server)
+- **PyTorch** (Transformer model and training)
+- **Torchvision** (datasets and augmentations)
+- **PIL** (image processing)
 
 ---
 
-## 🚀 Como rodar localmente
+## 🚀 How to Run Locally
 
-1. Clone o repositório:
+1. Clone the repository:
 ```bash
-git clone https://github.com/seu-usuario/OncoBrain.git
+git clone https://github.com/your-username/OncoBrain.git
 cd OncoBrain
-```
 
-2. Instale as dependências:
+
+2. Install the dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Rode a API:
+3. Start the API:
 ```bash
 uvicorn main:app --reload
 ```
 
-4. Acesse a documentação interativa Swagger:
+4. Access the interactive Swagger documentation:
 ```
 http://127.0.0.1:8000/docs
 ```
 
-5. Teste o upload de uma imagem tumor/célula!
+5. Test uploading a tumor/cell image!
 
 ---
 
-## 🏋️️ Estrutura do Projeto
+## 🏋️️ Project Structure
 
 ```bash
 OncoBrain/
-├── main.py                # FastAPI principal (endpoints)
+├── main.py                # Main FastAPI app (endpoints)
 ├── model/
-│   ├― transformer_model.py   # Modelo ViT para inferência
+│   ├― transformer_model.py   # ViT model for inference
 ├── training/
-│   ├― train.py             # Script de treinamento
-│   ├― dataset.py           # Dataset customizado
-│   ├― utils.py             # Funções auxiliares (salvamento)
-│   └― config.py            # Configurações gerais
-├── saved_models/           # Modelos treinados salvos (.pth)
-├── requirements.txt        # Dependências
-└── README.md               # Documentação (este arquivo)
+│   ├― train.py             # Training script
+│   ├― dataset.py           # Custom dataset loader
+│   ├― utils.py             # Helper functions (saving, etc.)
+│   └― config.py            # General configurations
+├── saved_models/           # Saved trained models (.pth)
+├── requirements.txt        # Dependencies
+└── README.md               # Documentation (this file)
 ```
 
 ---
 
-## 🔧 Como treinar um novo modelo
+## 🔧 How to Train a New Model
 
 1. Coloque as imagens em estrutura de pastas:
 ```
@@ -75,27 +75,19 @@ path/to/your/train/
    └── carcinoma/
 ```
 
-2. Ajuste `training/config.py` com o caminho correto:
+2. Update the training/config.py file with the correct path:
 ```python
 train_data_dir = "path/to/your/train"
 ```
 
-3. Rode o treino:
+3. Start the training:
 ```bash
 python training/train.py
 ```
 
-4. O modelo treinado será salvo automaticamente em `/saved_models/`.
+4. The trained model will be automatically saved in /saved_models/.
 
 ---
 
-## 📈 Roadmap futuro
-- [ ] Treinar com BreakHis ou DDSM datasets reais
-- [ ] Implementar Augmentations avançadas
-- [ ] Adicionar inferência de "confidence score"
-- [ ] Deploy online em servidor cloud (AWS / GCP / Render)
-
----
-
-## 🙏 Agradecimentos
-Desenvolvido por Fabio Daros com suporte da IA do ChatGPT. 🚀
+## 🙏 Acknowledgments
+Developed by Fabio Daros

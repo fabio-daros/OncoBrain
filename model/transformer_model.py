@@ -1,5 +1,3 @@
-# model/transformer_model.py
-
 import torch
 import torchvision.models as models
 import torch.nn as nn
@@ -11,10 +9,10 @@ def create_vit_model(num_classes):
     return model
 
 def load_model():
-    model = create_vit_model(num_classes=4)  # ou usar config.num_classes futuramente
+    model = create_vit_model(num_classes=4)
     model.load_state_dict(torch.load('saved_models/onco_vit_model.pth', map_location='cpu'))
     model.eval()
-    print("✅ Modelo carregado com sucesso!")
+    print("Successfully charged model!")
     return model
 
 def predict_image(model, image):
