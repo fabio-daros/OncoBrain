@@ -5,6 +5,11 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+    networks:
+      - shared-network
+networks:
+  shared-network:
+    external: true
     # Comentamos ou removemos o suporte obrigatório a GPU
     # deploy:
     #   resources:
