@@ -28,12 +28,14 @@ def build_transformer_model():
         nn.Flatten(),
         nn.Linear(224 * 224 * 3, 512),  # Supondo imagens 224x224 RGB
         nn.ReLU(),
-        nn.Linear(512, 4)  # 4 classes: benign, malignant, carcinoma, normal
+        nn.Linear(512, 4)
     )
     return model
 
 
 def predict_image(model, image):
+    classes = ["benign", "carcinoma", "malignant", "normal"]
+
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -41,5 +43,14 @@ def predict_image(model, image):
     image = transform(image).unsqueeze(0)
     with torch.no_grad():
         outputs = model(image)
-    _, predicted = outputs.max(1)
-    return predicted.item()
+        probabilities = torch.softmax(outputs, dim=1)
+        confidence, predicted = torch.max(probabilities, 1)
+
+    predicted_class = classes[int(predicted.item())]
+    confidence_score = float(confidence.item() * 100)  # <-- Converte para float puro
+
+    return {
+        "class": predicted_class,
+        "confidence": round(confidence_score, 2)
+    }
+

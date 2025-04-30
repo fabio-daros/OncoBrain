@@ -20,14 +20,17 @@ def read_root():
 @app.post("/analyze/")
 async def analyze_image(file: UploadFile = File(...)):
     try:
-        # Ler o conteúdo da imagem
         contents = await file.read()
         image = Image.open(io.BytesIO(contents)).convert('RGB')
 
-        # Fazer a predição
-        prediction = predict_image(model, image)
+        result = predict_image(model, image)
 
-        return JSONResponse(content={"prediction": prediction})
+        print("Predicted:", result)
+
+        return JSONResponse(content={"prediction": result})
 
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        print("ERROR:", e)
+        return JSONResponse(status_code=500, content={"error": f"Failed to analyze image: {str(e)}"})
+
+

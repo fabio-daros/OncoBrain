@@ -1,4 +1,6 @@
-# training/train.py
+import os
+import shutil
+import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
@@ -31,10 +33,17 @@ model = model.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
 
+best_acc = 0.0  # Variável para guardar a melhor accuracy
+
+train_losses = []
+train_accuracies = []
+
 # Loop de treino
 for epoch in range(config.epochs):
     model.train()
     running_loss = 0.0
+    correct = 0
+    total = 0
 
     for images, labels in train_loader:
         images, labels = images.to(device), labels.to(device)
@@ -47,7 +56,55 @@ for epoch in range(config.epochs):
 
         running_loss += loss.item()
 
-    print(f"Epoch [{epoch + 1}/{config.epochs}], Loss: {running_loss / len(train_loader):.4f}")
+        _, predicted = outputs.max(1)
+        total += labels.size(0)
+        correct += predicted.eq(labels).sum().item()
 
-# Salvar modelo treinado
-save_model(model, output_dir=config.model_output_dir)
+    epoch_loss = running_loss / len(train_loader)
+    epoch_acc = 100. * correct / total
+
+    print(f"Epoch [{epoch + 1}/{config.epochs}] - Loss: {epoch_loss:.4f} - Accuracy: {epoch_acc:.2f}%")
+    train_losses.append(epoch_loss)
+    train_accuracies.append(epoch_acc)
+
+    # Salvar o modelo se a accuracy melhorar
+    if epoch_acc > best_acc:
+        best_acc = epoch_acc
+        save_model(model, output_dir=config.model_output_dir)
+        print(f"New best model saved with accuracy: {best_acc:.2f}%")
+
+# Plotar Loss e Accuracy
+epochs_range = range(1, config.epochs + 1)
+
+plt.figure(figsize=(12, 5))
+
+# Plot Loss
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, train_losses, label="Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
+plt.legend()
+
+# Plot Accuracy
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, train_accuracies, label="Accuracy", color="green")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy (%)")
+plt.title("Training Accuracy")
+plt.legend()
+
+plt.tight_layout()
+plt.savefig(os.path.join(config.model_output_dir, "training_metrics.png"))
+
+# Caminho de destino no OncoPixel
+destination_path = "../OncoPixel/media/training/training_metrics.png"
+
+try:
+    shutil.copy(os.path.join(config.model_output_dir, "training_metrics.png"), destination_path)
+    print(f"Training chart copied to: {destination_path}")
+except Exception as e:
+    print(f"Failed to copy training chart: {e}")
+
+
+plt.show()
