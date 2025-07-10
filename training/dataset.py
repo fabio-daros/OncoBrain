@@ -2,6 +2,7 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 
+
 class TumorDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
@@ -13,8 +14,13 @@ class TumorDataset(Dataset):
             if os.path.isdir(class_path):
                 for filename in os.listdir(class_path):
                     self.samples.append((os.path.join(class_path, filename), class_name))
+        class_names = ["NILM", "LSIL", "HSIL", "INVALID"]
+        self.class_to_idx = {cls_name: idx for idx, cls_name in enumerate(class_names)}
 
-        self.class_to_idx = {cls_name: idx for idx, cls_name in enumerate(sorted(set([cls for _, cls in self.samples])))}
+        for cls in self.class_to_idx:
+            expected_dir = os.path.join(root_dir, cls)
+            if not os.path.exists(expected_dir):
+                raise ValueError(f"Expected class directory not found: {expected_dir}")
 
     def __len__(self):
         return len(self.samples)

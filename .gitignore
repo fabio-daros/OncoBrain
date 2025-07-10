@@ -8,3 +8,6 @@ __pycache__/
 *.pyo
 *.pyd
 .env
+dataset/
+output_images/
+media/
