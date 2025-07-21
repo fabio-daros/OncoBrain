@@ -1,6 +1,5 @@
 import os
 import random
-import shutil
 import subprocess
 import argparse
 import pickle
@@ -10,7 +9,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import seaborn as sns
-import matplotlib.pyplot as plt
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import KFold
@@ -25,7 +27,7 @@ from training import config
 
 # Argumentos de linha de comando
 parser = argparse.ArgumentParser(description="Train ViT model with K-Fold cross-validation")
-parser.add_argument('--folds', type=int, default=5, help='Number of folds')
+parser.add_argument('--folds', type=int, default=int(os.getenv('KFOLDS', 5)), help='Number of folds')
 parser.add_argument('--epochs', type=int, default=config.epochs, help='Number of epochs per fold')
 parser.add_argument('--batch_size', type=int, default=config.batch_size, help='Batch size')
 parser.add_argument('--learning_rate', type=float, default=config.learning_rate, help='Learning rate')
@@ -53,7 +55,7 @@ transform = transforms.Compose([
 ])
 
 # Dataset completo
-full_dataset = TumorDataset(root_dir=config.train_data_dir, transform=transform)
+full_dataset = TumorDataset(root_dirs=config.train_data_dirs, transform=transform)
 all_indices = list(range(len(full_dataset)))
 
 # TensorBoard geral

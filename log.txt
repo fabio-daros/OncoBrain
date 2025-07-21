@@ -1,0 +1,19 @@
+nohup: ignorando entrada
+INFO:     Started server process [404496]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+🟢 Using device: cuda
+🟢 Using device: cuda
+✅ Model partially loaded from saved_models/onco_vit_model.pth
+📦 Loading Faster R-CNN model from: ./saved_models/faster_rcnn_model_checkpoints/faster_rcnn_epoch_0.pth
+✅ Faster R-CNN loaded and moved to cuda
+INFO:     100.70.63.60:52274 - "GET / HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52274 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     100.70.63.60:52414 - "GET / HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52970 - "GET /heartbeat/ HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52972 - "POST /detect/ HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52975 - "GET /heartbeat/ HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52978 - "GET /heartbeat/ HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52980 - "POST /analyze/ HTTP/1.1" 200 OK
+INFO:     100.70.63.60:52982 - "GET /heartbeat/ HTTP/1.1" 200 OK

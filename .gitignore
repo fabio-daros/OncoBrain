@@ -1,6 +1,7 @@
 venv/
 saved_models/
 __pycache__/
+*.log
 *.pth
 *.pt
 *.ckpt
@@ -11,3 +12,4 @@ __pycache__/
 dataset/
 output_images/
 media/
+nohup.out

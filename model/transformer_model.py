@@ -4,8 +4,12 @@ import torchvision.models as models
 import torch.nn as nn
 from torchvision import transforms
 
+# Defina as classes do modelo
 BETHESDA_CLASSES = ["NILM", "LSIL", "HSIL", "INVALID"]
 
+# Detecta se CUDA está disponível
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f"🟢 Using device: {device}")
 
 def create_vit_model(num_classes, freeze_base=True):
     # Modelo do transformer
@@ -18,23 +22,23 @@ def create_vit_model(num_classes, freeze_base=True):
 
     # Substitui o head para a quantidade de classes
     model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
-    return model
-
+    return model.to(device)  # Move modelo para GPU (ou CPU se necessário)
 
 def load_model():
     model_path = 'saved_models/onco_vit_model.pth'
     model = create_vit_model(num_classes=4)
     if os.path.exists(model_path):
         try:
-            state_dict = torch.load(model_path, map_location='cpu')
+            # Usa weights_only para evitar FutureWarning
+            state_dict = torch.load(model_path, map_location=device, weights_only=True)
             model.load_state_dict(state_dict, strict=False)
-            print(f"Model partially loaded from {model_path}")
+
+            print(f"✅ Model partially loaded from {model_path}")
         except Exception as e:
             print(f"Could not load saved model due to mismatch: {e}")
     else:
         print(f"No saved model found at {model_path}.")
     return model
-
 
 def predict_image(model, image, confidence_threshold=50):
     classes = BETHESDA_CLASSES
@@ -43,8 +47,9 @@ def predict_image(model, image, confidence_threshold=50):
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
     ])
-    image = transform(image).unsqueeze(0)
+    image = transform(image).unsqueeze(0).to(device)  # Move imagem para GPU
 
+    model.eval()  # Garantir que o modelo esta em modo de inferencia
     with torch.no_grad():
         outputs = model(image)
         probabilities = torch.softmax(outputs, dim=1)

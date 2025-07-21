@@ -5,7 +5,8 @@ import os
 load_dotenv()
 
 # Diretórios
-train_data_dir = os.getenv('DATASET_DIR', 'dataset/bmt')  # Para classificação
+train_data_dirs = os.getenv('DATASET_DIRS', 'dataset/bmt,dataset/BMT_Aggregated').split(',')  # Para classificação
+train_data_dir = os.getenv('DATASET_DIR', 'dataset/bmt')  # legado dos primeiros treinos.
 model_output_dir = os.getenv('MODEL_DIR', 'saved_models/')
 
 # Detecção - dataset detection (caso queira diferenciar depois)
